@@ -1,34 +1,28 @@
-package com.xiao.algorithm.sort;
+package com.xiao.algorithm.class01;
 
 
 import com.xiao.algorithm.util.SortUtils;
 
 /**
- * 冒泡排序
+ * 插入排序
  *
  * @author KongXiao
- * @date 2021/11/4
+ * @date 2021/11/22
  */
-public class BubbleSort {
+public class InsertionSort {
 
-    /**
-     * 冒泡排序
-     *
-     * @param arr
-     */
-    public static void bubbleSort(int[] arr) {
+    public static void insertionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-
-        // 索引 0 ~ n-1，依次比较相邻两个数，谁大谁往右移，搞定 n-1 的位置
-        // 索引 0 ~ n-2，依次比较相邻两个数，谁大谁往右移，搞定 n-2 的位置
-        // 索引 0 ~ n-3，依次比较相邻两个数，谁大谁往右移，搞定 n-3 的位置...
-        for (int i = arr.length - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    swap(arr, j, j + 1);
-                }
+        // 索引 1 处的元素与前面的数依次比较，小就往前移动，保证索引 0 ~ 1 有序；
+        // 索引 2 处的元素与前面的数依次比较，小就往前移动，保证索引 0 ~ 2 有序；
+        // 索引 3 处的元素与前面的数依次比较，小就往前移动，保证索引 0 ~ 3 有序；
+        // ...
+        // 索引 n-1 处的元素依次与前面的数比较，保证索引 0 ~ n-1 有序；
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
+                swap(arr, j, j + 1);
             }
         }
     }
@@ -38,7 +32,6 @@ public class BubbleSort {
         arr[j] = arr[i];
         arr[i] = temp;
     }
-
 
     /**
      * 使用对数器进行测试
@@ -53,7 +46,7 @@ public class BubbleSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = SortUtils.generateRandomArray(maxSize, maxValue);
             int[] arr2 = SortUtils.copyArray(arr1);
-            bubbleSort(arr1);
+            insertionSort(arr1);
             SortUtils.comparator(arr2);
             if (!SortUtils.isEqual(arr1, arr2)) {
                 succeed = false;
@@ -66,7 +59,7 @@ public class BubbleSort {
 
         int[] arr = SortUtils.generateRandomArray(maxSize, maxValue);
         SortUtils.printArray(arr);
-        bubbleSort(arr);
+        insertionSort(arr);
         SortUtils.printArray(arr);
     }
 }

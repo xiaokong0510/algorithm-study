@@ -1,37 +1,51 @@
-package com.xiao.algorithm.sort;
+package com.xiao.algorithm.class01;
+
 
 import com.xiao.algorithm.util.SortUtils;
 
-
 /**
- * 插入排序
+ * 选择排序
  *
  * @author KongXiao
- * @date 2021/11/22
+ * @date 2021/11/4
  */
-public class InsertionSort {
+public class SelectionSort {
 
-    public static void insertionSort(int[] arr) {
+    /**
+     * 选择排序
+     *
+     * @param arr 待排序数组
+     */
+    public static void selectionSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        // 索引 1 处的元素与前面的数依次比较，小就往前移动，保证索引 0 ~ 1 有序；
-        // 索引 2 处的元素与前面的数依次比较，小就往前移动，保证索引 0 ~ 2 有序；
-        // 索引 3 处的元素与前面的数依次比较，小就往前移动，保证索引 0 ~ 3 有序；
-        // ...
-        // 索引 n-1 处的元素依次与前面的数比较，保证索引 0 ~ n-1 有序；
-        for (int i = 1; i < arr.length; i++) {
-            for (int j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
-                swap(arr, j, j + 1);
+        // 0 ~ n-1 找出最小值放在 0 处
+        // 1 ~ n-1 找出最小值放在 1 处
+        // 2 ~ n-1 找出最小值放在 2 处 ...
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                minIndex = arr[j] < arr[minIndex] ? j : minIndex;
             }
+            // 交换
+            swap(arr, i, minIndex);
         }
     }
 
-    private static void swap(int[] arr, int j, int i) {
-        int temp = arr[j];
-        arr[j] = arr[i];
-        arr[i] = temp;
+    /**
+     * 交换数组中两个元素
+     *
+     * @param arr
+     * @param i
+     * @param j
+     */
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
+
 
     /**
      * 使用对数器进行测试
@@ -46,7 +60,7 @@ public class InsertionSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = SortUtils.generateRandomArray(maxSize, maxValue);
             int[] arr2 = SortUtils.copyArray(arr1);
-            insertionSort(arr1);
+            selectionSort(arr1);
             SortUtils.comparator(arr2);
             if (!SortUtils.isEqual(arr1, arr2)) {
                 succeed = false;
@@ -59,7 +73,8 @@ public class InsertionSort {
 
         int[] arr = SortUtils.generateRandomArray(maxSize, maxValue);
         SortUtils.printArray(arr);
-        insertionSort(arr);
+        selectionSort(arr);
         SortUtils.printArray(arr);
     }
+
 }
